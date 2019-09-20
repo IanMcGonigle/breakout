@@ -4,7 +4,7 @@
     .form-wrapper
         label Enter your name
         input(type="text" v-model="name")
-        button( @click="onClick" @mouseover="hover = true" @mouseleave="hover = false") Play now!
+        button( @click="onClick" @mouseover="hover = true" @mouseleave="hover = false") Play
 </template>
 
 <script>
@@ -78,46 +78,6 @@ input {
 
 ::placeholder {
   color: white;
-}
-
-button {
-  font-family: "Press Start 2P", cursive;
-  font-size: 1.5rem;
-  outline: 0;
-  padding: 1.5rem 2rem;
-  color: white;
-  border: none;
-  position: relative;
-  background: transparent;
-  z-index: 1;
-  overflow: hidden;
-  text-shadow: 2px 2px #000000;
-  cursor: pointer;
-
-  &::before {
-    content: "";
-    z-index: -1;
-    display: block;
-    position: absolute;
-    width: 100%;
-    height: 500%;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    transition: all 400ms ease;
-    background: linear-gradient(
-      180deg,
-      blue 0%,
-      purple 25%,
-      red 50%,
-      orange 75%,
-      yellow 100%
-    );
-  }
-
-  &:hover::before {
-    top: -400%;
-  }
 }
 
 .animated-rainbow {

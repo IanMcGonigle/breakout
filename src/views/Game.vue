@@ -8,7 +8,7 @@
           .brick(@click="toggleBrick(index)" v-for="(brick, index) in brickCount" ref="bricks" :key="index" :class="[`band-${Math.floor(index/(brickCount/5))}`]" :data-points="Math.floor(index/16)")
         <app-ball ref="ball" :position="ballPosition"/>
         <app-paddle :active="!paused" ref="paddle"/>
-      button( @click="togglePlay") {{paused ? "start" : "stop"}}
+      button( @click="togglePlay") {{paused ? "play" : "pause"}}
 </template>
 
 <script>
@@ -262,17 +262,9 @@ export default {
 }
 
 button {
-  padding: 0.5rem 1rem;
-  background: cornflowerblue;
-  color: #fff;
-  outline: 0;
-  border: 0;
-  font-size: 1.5rem;
-  border-radius: 0.25rem;
-  margin: 1rem;
-
-  &:hover {
-    background: darken(cornflowerblue, 5%);
-  }
+  margin: 2rem;
+  font-size: 1rem;
+  padding: 0.75rem 1.25rem;
+  min-width: 150px;
 }
 </style>
