@@ -1,5 +1,95 @@
-<template>
-  <div class="about">
-    <h1>This is an about page</h1>
-  </div>
+<template lang="pug">
+  .home
+    h1( v-bind:class="{'animated-rainbow':hover}" ) High Scores
+    .score-wrapper
+      h3 {{player}} : {{score}}
+      table
+        th player
+        th score
+        tbody
+          tr( v-for="score in highscores")
+            td {{score.user}}
+            td {{score.score}}
+
+
+
+    button replay
+    button quit
+
 </template>
+
+<script>
+// @ is an alias to /src
+import { mapActions, mapGetters, mapState } from "vuex";
+
+export default {
+  name: "about",
+
+  data() {
+    return {
+      name: "",
+      hover: false
+    };
+  },
+  computed: {
+    ...mapState(["highscores", "score", "player"])
+  },
+  methods: {
+    ...mapActions(["setPlayer", "resetGame"]),
+    onClick() {
+      console.log("clicked ", this.name);
+      if (this.name) {
+        this.setPlayer(this.name);
+      }
+
+      this.$router.push("game");
+    },
+    onHover() {
+      console.log("hover ", this.name);
+    }
+  }
+};
+</script>
+
+<style lang="scss" scoped>
+h1 {
+  position: relative;
+  font-size: 3rem;
+  letter-spacing: -0.25rem;
+  margin: 3rem auto 6rem;
+  text-shadow: 1px 1px black, 2px 4px red, 4px 8px orange, 6px 12px yellow,
+    8px 16px green, 10px 20px blue, 0px 0px 50px white, 0px 25px 50px white;
+}
+
+.score-wrapper {
+  margin: auto;
+  min-width: 300px;
+  max-width: 600px;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 2rem;
+  margin-bottom: 1rem;
+  border: 10px solid white;
+  text-align: left;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  margin: 2rem auto;
+  th {
+    font-size: 1.25rem;
+  }
+  th,
+  td {
+    border: 1px solid white;
+    padding: 1rem 1.25rem;
+  }
+}
+button {
+  margin: 0.5rem;
+  font-size: 1rem;
+  padding: 0.75rem 1.25rem;
+  min-width: 150px;
+}
+</style>

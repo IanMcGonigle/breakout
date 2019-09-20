@@ -11,6 +11,20 @@
   </div>
 </template>
 
+<script>
+import { mapActions } from "vuex";
+export default {
+  name: "App",
+  created() {
+    console.log("app created");
+    this.initHighscores();
+  },
+  methods: {
+    ...mapActions(["initHighscores"])
+  }
+};
+</script>
+
 <style lang="scss">
 * {
   box-sizing: border-box;

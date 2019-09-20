@@ -1,14 +1,34 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import firebase from 'firebase';
 
 Vue.use(Vuex);
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBjZqbncimJ_Fn7A1eizTOGJmfmy_0DhMQ",
+  authDomain: "breakout-2f7a9.firebaseapp.com",
+  databaseURL: "https://breakout-2f7a9.firebaseio.com",
+  projectId: "breakout-2f7a9",
+  storageBucket: "breakout-2f7a9.appspot.com",
+  messagingSenderId: "255607378101",
+  appId: "1:255607378101:web:ae18730425557a93082efc"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const db = firebase.firestore();
+db.settings({
+  timestampsInSnapshots: true
+});
 
 const defaultState = {
   tick: Date.now(),
   score: 0,
   player: "Player 1",
   lives: 3,
-  level: 1
+  level: 1,
+  gameover: false,
+  highscores: []
 };
 
 export default new Vuex.Store({
@@ -36,8 +56,22 @@ export default new Vuex.Store({
         state[prop] = defaultState[prop];
       }
     },
+    PLAY_AGAIN: state => {
+      const player = state.player;
+      for (let prop in defaultState) {
+        state[prop] = defaultState[prop];
+      }
+
+      state.player = player;
+    },
     UPDATE_GAMEOVER: (state, value) => {
+      if (value) {
+
+      }
       state.gameover = value;
+    },
+    INIT_HIGH_SCORES: (state, value) => {
+      state.highscores = value;
     }
   },
   actions: {
@@ -61,12 +95,43 @@ export default new Vuex.Store({
     },
     loseLife: context => {
       const newLives = context.state.lives - 1;
+      alert(newLives)
 
       if (newLives > -1) {
         context.commit("UPDATE_LIVES", newLives);
       } else {
-        context.commit("UPDATE_GAMEOVER", true);
+        db.collection("scores").add({
+          user: context.state.player,
+          score: context.state.score
+        }).then(res => {
+          //eslint-disable-next-line
+          console.log("res ", res);
+        });
+        // context.commit("UPDATE_GAMEOVER", true);
       }
+    },
+    // playAgain: context => {
+
+    // },
+    initHighscores: context => {
+      db.collection("scores")
+        .get()
+        .then(snapshot => {
+          const scores = snapshot.docs.map(doc => doc.data());
+          //eslint-disable-next-line
+          console.log(scores);
+          context.commit("INIT_HIGH_SCORES", scores);
+
+          scores.forEach(score => {
+            //eslint-disable-next-line
+            console.log(score.user);
+          });
+        })
+        .catch(err => {
+          //eslint-disable-next-line
+          console.log("the was an error ", err);
+          context.commit("INIT_HIGH_SCORES", context.store.highscores);
+        });
     }
   }
 });

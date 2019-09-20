@@ -21,8 +21,11 @@ export default {
       hover: false
     };
   },
+  mounted() {
+    this.resetGame();
+  },
   methods: {
-    ...mapActions(["setPlayer"]),
+    ...mapActions(["setPlayer", "resetGame"]),
     onClick() {
       console.log("clicked ", this.name);
       if (this.name) {
