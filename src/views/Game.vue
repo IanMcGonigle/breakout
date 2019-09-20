@@ -26,7 +26,7 @@ export default {
   },
   data() {
     return {
-      brickCount: 40,
+      brickCount: 8,
       hitCount: 0,
       paused: true,
       loopInterval: null,
@@ -47,7 +47,8 @@ export default {
   },
   computed: {
     ...mapState({
-      level: state => state.level
+      level: state => state.level,
+      gameover: state => state.gameover
     })
   },
   watch: {
@@ -55,6 +56,11 @@ export default {
       this.initializeBall();
       this.resetField();
       this.resetTurn();
+    },
+    gameover() {
+      if (this.gameover) {
+        this.$router.push("about");
+      }
     }
   },
   mounted() {
@@ -116,7 +122,6 @@ export default {
 
       // check to see if we have won the game
       if (this.hitCount === this.brickCount) {
-        alert("cleared the field");
         this.onClearField();
       }
       const speed = 0.5;

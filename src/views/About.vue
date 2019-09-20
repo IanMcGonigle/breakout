@@ -1,15 +1,14 @@
 <template lang="pug">
-  .home
+  .about
     h1( v-bind:class="{'animated-rainbow':hover}" ) High Scores
-    .score-wrapper
-      h3 {{player}} : {{score}}
-      table
-        th player
-        th score
-        tbody
-          tr( v-for="score in highscores")
-            td {{score.user}}
-            td {{score.score}}
+
+    table.score-wrapper
+      th player
+      th score
+      tbody
+        tr( v-for="score in highscores" v-bind:class="{'current': isActive(score)}")
+          td {{score.user}}
+          td {{score.score}}
 
 
 
@@ -24,18 +23,23 @@ import { mapActions, mapGetters, mapState } from "vuex";
 
 export default {
   name: "about",
-
   data() {
     return {
       name: "",
       hover: false
     };
   },
+  created() {
+    this.initHighscores();
+  },
   computed: {
     ...mapState(["highscores", "score", "player"])
   },
   methods: {
-    ...mapActions(["setPlayer", "resetGame"]),
+    ...mapActions(["setPlayer", "resetGame", "initHighscores"]),
+    isActive(score) {
+      return this.player === score.user && this.score === score.score;
+    },
     onClick() {
       console.log("clicked ", this.name);
       if (this.name) {
@@ -52,11 +56,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.about {
+  padding-bottom: 3rem;
+}
 h1 {
   position: relative;
   font-size: 3rem;
   letter-spacing: -0.25rem;
-  margin: 3rem auto 6rem;
+  margin: 1.5rem auto 3rem;
   text-shadow: 1px 1px black, 2px 4px red, 4px 8px orange, 6px 12px yellow,
     8px 16px green, 10px 20px blue, 0px 0px 50px white, 0px 25px 50px white;
 }
@@ -84,6 +91,14 @@ table {
   td {
     border: 1px solid white;
     padding: 1rem 1.25rem;
+  }
+
+  tr.current {
+    color: yellow;
+  }
+
+  td {
+    font-size: 0.75rem;
   }
 }
 button {

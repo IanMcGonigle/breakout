@@ -95,19 +95,21 @@ export default new Vuex.Store({
     },
     loseLife: context => {
       const newLives = context.state.lives - 1;
-      alert(newLives)
 
       if (newLives > -1) {
         context.commit("UPDATE_LIVES", newLives);
       } else {
-        db.collection("scores").add({
-          user: context.state.player,
-          score: context.state.score
-        }).then(res => {
-          //eslint-disable-next-line
-          console.log("res ", res);
-        });
-        // context.commit("UPDATE_GAMEOVER", true);
+        alert('GAME OVER')
+        db.collection("scores")
+          .add({
+            user: context.state.player,
+            score: context.state.score
+          })
+          .then(res => {
+            //eslint-disable-next-line
+            console.log("res ", res);
+            context.commit("UPDATE_GAMEOVER", true);
+          });
       }
     },
     // playAgain: context => {
@@ -115,12 +117,13 @@ export default new Vuex.Store({
     // },
     initHighscores: context => {
       db.collection("scores")
+        .orderBy("score")
         .get()
         .then(snapshot => {
           const scores = snapshot.docs.map(doc => doc.data());
           //eslint-disable-next-line
           console.log(scores);
-          context.commit("INIT_HIGH_SCORES", scores);
+          context.commit("INIT_HIGH_SCORES", scores.reverse());
 
           scores.forEach(score => {
             //eslint-disable-next-line
