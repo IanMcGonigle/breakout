@@ -22,6 +22,9 @@ export default new Vuex.Store({
     SET_SCORE: (state, value) => {
       state.score = value;
     },
+    SET_PLAYER: (state, value) => {
+      state.player = value;
+    },
     LEVEL_UP: state => {
       state.level = state.level + 1;
     },
@@ -46,6 +49,9 @@ export default new Vuex.Store({
     },
     resetScore: context => {
       context.commit("SET_SCORE", 0);
+    },
+    setPlayer: (context, value) => {
+      context.commit("SET_PLAYER", value);
     },
     resetGame: context => {
       context.commit("RESET_GAME");
