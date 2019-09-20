@@ -1,10 +1,10 @@
 <template lang="pug">
   .home
-    h1 Breakout!
+    h1( v-bind:class="{'animated-rainbow':hover}" ) Breakout!
     .form-wrapper
         label Enter your name
         input(type="text" v-model="name")
-        button( @click="onClick" @mouseover="onHover") Play now!
+        button( @click="onClick" @mouseover="hover = true" @mouseleave="hover = false") Play now!
 </template>
 
 <script>
@@ -17,7 +17,8 @@ export default {
 
   data() {
     return {
-      name: ""
+      name: "",
+      hover: false
     };
   },
   methods: {
@@ -116,6 +117,37 @@ button {
 
   &:hover::before {
     top: -400%;
+  }
+}
+
+.animated-rainbow {
+  animation-name: rainbow;
+  animation-duration: 200ms;
+  animation-iteration-count: infinite;
+}
+
+@keyframes rainbow {
+  0% {
+    text-shadow: 1px 1px black, 5px 10px red, 10px 20px orange, 15px 30px yellow,
+      20px 40px green, 25px 50px blue, 0px 0px 50px white, 0px 50px 50px white;
+  }
+  25% {
+    text-shadow: 1px 1px black, 5px 10px orange, 10px 20px yellow,
+      15px 30px green, 20px 40px blue, 25px 50px red, 0px 0px 50px white,
+      0px 50px 50px white;
+  }
+  50% {
+    text-shadow: 1px 1px black, 5px 10px yellow, 10px 20px green, 15px 30px blue,
+      20px 40px red, 25px 50px orange, 0px 0px 50px white, 0px 50px 50px white;
+  }
+  75% {
+    text-shadow: 1px 1px black, 5px 10px green, 10px 20px blue, 15px 30px red,
+      20px 40px orange, 25px 50px yellow, 0px 0px 50px white,
+      0px 50px 50px white;
+  }
+  100% {
+    text-shadow: 1px 1px black, 5px 10px blue, 10px 20px red, 15px 30px orange,
+      20px 40px yellow, 25px 50px green, 0px 0px 50px white, 0px 50px 50px white;
   }
 }
 </style>
