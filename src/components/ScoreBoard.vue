@@ -1,9 +1,9 @@
 <template lang="pug">
   .root
-    .player {{player}}
+    .level Level {{level}}
     .lives
       .life( v-for="life in lives")
-    .score Score: {{score}}
+    .score {{player}} Score: {{score}}
 </template>
 
 <script>
@@ -11,7 +11,7 @@ import { mapState } from "vuex";
 export default {
   name: "ScoreBoard",
   computed: {
-    ...mapState(["score", "player", "lives"])
+    ...mapState(["score", "player", "lives", "level"])
   }
 };
 </script>
@@ -38,7 +38,7 @@ export default {
   width: var(--size);
   height: var(--size);
   margin: 0.25rem;
-  background: white;
+  background: aquamarine;
   display: inline-block;
 }
 .score {

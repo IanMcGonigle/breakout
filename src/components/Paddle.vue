@@ -1,5 +1,5 @@
 <template>
-  <div v-bind:style="{ 'left': percent }"></div>
+  <div v-bind:style="{ 'width' : width, 'left': percent  }">{{level}}</div>
 </template>
 
 <script>
@@ -9,13 +9,13 @@ export default {
   props: ["active"],
   data() {
     return {
+      baseWidth: 8,
       postion: 0,
       maxSpeed: 5,
       currentSpeed: 0,
       direction: 0,
       drag: 0.75,
-      keydown: false,
-      maxLeft: 100 - 100 / 8
+      keydown: false
     };
   },
   mounted() {
@@ -27,19 +27,39 @@ export default {
         this.keydown = false;
       }
     });
+
+    this.resetPosition();
   },
   computed: {
     ...mapState({
-      tick: state => state.tick
+      tick: state => state.tick,
+      lives: state => state.lives,
+      level: state => state.level
     }),
     percent() {
       let pos = this.postion;
       return `${pos}%`;
-    }
+    },
+    maxLeft() {
+      return 100 - 100 / this.denominator;
+    },
+    denominator() {
+      return Math.min(16, this.baseWidth / (2 / this.level));
+    },
+    width() {
+      return `${100 / this.denominator}%`;
+    },
+    position() {}
   },
   watch: {
     tick: function(oldTick, newTick) {
       this.loop();
+    },
+    lives() {
+      this.resetPosition();
+    },
+    level() {
+      this.resetPosition();
     }
   },
   methods: {
@@ -59,11 +79,10 @@ export default {
           break;
       }
     },
-    lerp(start, end, amt) {
-      return (1 - amt) * start + amt * end;
+    resetPosition() {
+      this.postion = 50 - 100 / this.denominator / 2;
     },
     loop() {
-      // console.log("Paddle loop");
       let newSpeed = this.currentSpeed;
       let newPos = this.postion;
       if (this.keydown) {
@@ -98,7 +117,6 @@ div {
   height: 20px;
   margin: 2px;
   background: #fff;
-  width: calc((100 / 8) * 1%);
   position: absolute;
   bottom: 0;
   transition: left 100ms ease;

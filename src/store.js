@@ -7,8 +7,9 @@ const defaultState = {
   tick: Date.now(),
   score: 0,
   player: "Player 1",
-  lives: 3
-}
+  lives: 3,
+  level: 1
+};
 
 export default new Vuex.Store({
   state: {
@@ -20,6 +21,20 @@ export default new Vuex.Store({
     },
     SET_SCORE: (state, value) => {
       state.score = value;
+    },
+    LEVEL_UP: state => {
+      state.level = state.level + 1;
+    },
+    UPDATE_LIVES: (state, value) => {
+      state.lives = value;
+    },
+    RESET_GAME: state => {
+      for (let prop in defaultState) {
+        state[prop] = defaultState[prop];
+      }
+    },
+    UPDATE_GAMEOVER: (state, value) => {
+      state.gameover = value;
     }
   },
   actions: {
@@ -31,6 +46,21 @@ export default new Vuex.Store({
     },
     resetScore: context => {
       context.commit("SET_SCORE", 0);
+    },
+    resetGame: context => {
+      context.commit("RESET_GAME");
+    },
+    levelUp: context => {
+      context.commit("LEVEL_UP");
+    },
+    loseLife: context => {
+      const newLives = context.state.lives - 1;
+
+      if (newLives > -1) {
+        context.commit("UPDATE_LIVES", newLives);
+      } else {
+        context.commit("UPDATE_GAMEOVER", true);
+      }
     }
   }
 });

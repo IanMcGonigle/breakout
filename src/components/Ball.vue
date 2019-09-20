@@ -1,5 +1,5 @@
 <template>
-  <div v-bind:style="inlineStyle" />
+  <div v-bind:style="inlineStyle" ref="ball" />
 </template>
 
 <script>

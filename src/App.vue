@@ -1,11 +1,13 @@
 <template>
   <div id="app">
-    <!-- <div id="nav">
+    <div id="nav">
       <router-link to="/">Home</router-link>|
       <router-link to="/about">About</router-link>|
       <router-link to="/game">Game</router-link>
-    </div>-->
-    <router-view />
+    </div>
+    <div class="wrapper">
+      <router-view />
+    </div>
   </div>
 </template>
 
@@ -20,10 +22,12 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  background: #333;
-  width: 100vw;
-  height: 100vh;
+  color: white;
+  font-family: "Press Start 2P", cursive;
+  min-height: 100vh;
+  background: url("./assets/space-bg.jpg");
+  background-size: cover;
+  // display: flex;
 }
 #nav {
   padding: 30px;
@@ -34,5 +38,9 @@
       color: #42b983;
     }
   }
+}
+.wrapper {
+  margin: auto;
+  flex: 1;
 }
 </style>
