@@ -1,4 +1,3 @@
-
 <template lang="pug">
   div.blackout( v-if="gameover")
     .container
@@ -149,7 +148,7 @@ export default {
       if (this.hitCount === this.brickCount) {
         this.onClearField();
       }
-      const speed = 0.5;
+      // const speed = 0.5;
       const ballRect = this.$refs.ball.$el.getBoundingClientRect();
       const paddleRect = this.$refs.paddle.$el.getBoundingClientRect();
       const boardRect = this.$refs.board.getBoundingClientRect();
@@ -211,10 +210,10 @@ export default {
           audioManager.playBrick();
           const brickSpeed =
             (4 - parseInt(brick.getAttribute("data-points"))) / 50;
-          const newXspeed = Math.min(
-            this.ballSpeed.x + brickSpeed,
-            this.ballSpeed.max
-          );
+          // const newXspeed = Math.min(
+          //   this.ballSpeed.x + brickSpeed,
+          //   this.ballSpeed.max
+          // );
           const newYspeed = Math.min(
             this.ballSpeed.y + brickSpeed,
             this.ballSpeed.max

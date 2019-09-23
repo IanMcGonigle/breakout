@@ -20,7 +20,7 @@
 
 <script>
 // @ is an alias to /src
-import { mapActions, mapGetters, mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 export default {
   name: "about",
@@ -49,15 +49,11 @@ export default {
       return result;
     },
     onClick() {
-      console.log("clicked ", this.name);
       if (this.name) {
         this.setPlayer(this.name);
       }
 
       this.$router.push("game");
-    },
-    onHover() {
-      console.log("hover ", this.name);
     }
   }
 };

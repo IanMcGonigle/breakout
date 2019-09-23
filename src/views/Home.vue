@@ -26,15 +26,11 @@ export default {
   methods: {
     ...mapActions(["setPlayer", "resetGame"]),
     onClick() {
-      console.log("clicked ", this.name);
       if (this.name) {
         this.setPlayer(this.name);
       }
 
       this.$router.push("game");
-    },
-    onHover() {
-      console.log("hover ", this.name);
     }
   }
 };

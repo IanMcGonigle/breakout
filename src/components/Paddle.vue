@@ -1,5 +1,5 @@
 <template>
-  <div v-bind:style="{ 'width' : width, 'left': percent  }">{{level}}</div>
+  <div v-bind:style="{ width: width, left: percent }">{{ level }}</div>
 </template>
 
 <script>
@@ -48,11 +48,10 @@ export default {
     },
     width() {
       return `${100 / this.denominator}%`;
-    },
-    position() {}
+    }
   },
   watch: {
-    tick: function(oldTick, newTick) {
+    tick: function() {
       this.loop();
     },
     lives() {

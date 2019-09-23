@@ -11,7 +11,6 @@ import { mapActions } from "vuex";
 export default {
   name: "App",
   created() {
-    console.log("app created");
     this.initHighscores();
   },
   methods: {
