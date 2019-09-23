@@ -38,7 +38,7 @@ export default {
     }),
     percent() {
       let pos = this.postion;
-      return `${pos}%`;
+      return `calc(${pos}%)`;
     },
     maxLeft() {
       return 100 - 100 / this.denominator;
@@ -64,7 +64,7 @@ export default {
   },
   methods: {
     updatePostion(direction) {
-      if (!this.active) return;
+      // if (!this.active) return;
 
       switch (direction) {
         case "ArrowLeft":
@@ -115,7 +115,7 @@ export default {
 <style lang="scss" scoped>
 div {
   height: 20px;
-  margin: 2px;
+  // margin: 2px;
   background: #fff;
   position: absolute;
   bottom: 0;

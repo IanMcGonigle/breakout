@@ -168,12 +168,12 @@ export default {
         audioManager.playBall();
       }
       // check to see if the ball is off the right
-      if (ballRect.x > boardRect.right - ballRect.width) {
+      if (ballRect.x > boardRect.right - ballRect.width - 7.5) {
         this.ballDirection.x = -1;
         audioManager.playBall();
       }
       // check to see if the ball is off the left
-      if (ballRect.x < boardRect.left) {
+      if (ballRect.x < boardRect.left + 7.5) {
         this.ballDirection.x = 1;
         audioManager.playBall();
       }
@@ -257,7 +257,7 @@ export default {
 }
 
 .field {
-  padding: 2px;
+  // padding: 2px;
   display: flex;
   flex-wrap: wrap;
 }
@@ -265,9 +265,10 @@ export default {
 .brick {
   height: 20px;
   background: #fff;
-  margin: 1px;
+  // margin: 1px;
   // width: calc((100 / 8) * 1%);
-  width: calc((100 / 8) * 1% - 2px);
+  // width: calc((100 / 8) * 1% - 2px);
+  width: calc((100 / 8) * 1%);
 
   &-hit {
     opacity: 0;
