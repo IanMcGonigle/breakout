@@ -1,6 +1,6 @@
 <template lang="pug">
   .about
-    h1( v-bind:class="{'animated-rainbow':hover}" ) High Scores
+    h1 High Scores
 
     table.score-wrapper
       th player
