@@ -12,8 +12,9 @@
 
 
 
-    button replay
-    button quit
+
+    <router-link class="btn" to="/game">replay</router-link>
+    <router-link class="btn" to="/">quit</router-link>
 
 </template>
 
@@ -26,11 +27,15 @@ export default {
   data() {
     return {
       name: "",
-      hover: false
+      hover: false,
+      activeSet: false
     };
   },
   created() {
     this.initHighscores();
+  },
+  mounted() {
+    this.activeSet = false;
   },
   computed: {
     ...mapState(["highscores", "score", "player"])
@@ -38,7 +43,10 @@ export default {
   methods: {
     ...mapActions(["setPlayer", "resetGame", "initHighscores"]),
     isActive(score) {
-      return this.player === score.user && this.score === score.score;
+      const result = this.player === score.user && this.score === score.score;
+      // !this.activeSet;
+      // this.activeSet = true;
+      return result;
     },
     onClick() {
       console.log("clicked ", this.name);
@@ -89,18 +97,30 @@ table {
   }
   th,
   td {
-    border: 1px solid white;
-    padding: 1rem 1.25rem;
+    border: 2px solid white;
+    padding: 1.25rem 1.75rem;
   }
 
-  tr.current {
-    color: yellow;
+  tr.current:first-of-type {
+    animation: currentScore;
+    animation-duration: 500ms;
+    animation-iteration-count: infinite;
   }
 
   td {
     font-size: 0.75rem;
   }
+
+  @keyframes currentScore {
+    0% {
+      color: white;
+    }
+    100% {
+      color: yellow;
+    }
+  }
 }
+.btn,
 button {
   margin: 0.5rem;
   font-size: 1rem;

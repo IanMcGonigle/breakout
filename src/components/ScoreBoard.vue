@@ -1,9 +1,9 @@
 <template lang="pug">
-  .root
-    .level Level {{level}}
-    .lives
-      .life( v-for="life in lives")
-    .score {{player}} Score: {{score}}
+    .root
+      .level Level {{level}}
+      .lives
+        .life( v-for="life in lives")
+      .score {{player}} Score: {{score}}
 </template>
 
 <script>
@@ -18,6 +18,12 @@ export default {
 <style lang="scss" scoped>
 :root {
   --size: 2px;
+}
+
+.rb-shadow {
+  margin-top: 0;
+  transform: scale(0.3);
+  position: absolute;
 }
 .root {
   padding: 1rem;

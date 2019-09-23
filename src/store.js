@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import firebase from 'firebase';
+import firebase from "firebase";
 
 Vue.use(Vuex);
 
@@ -65,9 +65,6 @@ export default new Vuex.Store({
       state.player = player;
     },
     UPDATE_GAMEOVER: (state, value) => {
-      if (value) {
-
-      }
       state.gameover = value;
     },
     INIT_HIGH_SCORES: (state, value) => {
@@ -99,7 +96,6 @@ export default new Vuex.Store({
       if (newLives > -1) {
         context.commit("UPDATE_LIVES", newLives);
       } else {
-        alert('GAME OVER')
         db.collection("scores")
           .add({
             user: context.state.player,
@@ -112,23 +108,23 @@ export default new Vuex.Store({
           });
       }
     },
-    // playAgain: context => {
-
-    // },
+    playAgain: context => {
+      context.commit("PLAY_AGAIN");
+    },
     initHighscores: context => {
       db.collection("scores")
         .orderBy("score")
         .get()
         .then(snapshot => {
           const scores = snapshot.docs.map(doc => doc.data());
-          //eslint-disable-next-line
-          console.log(scores);
-          context.commit("INIT_HIGH_SCORES", scores.reverse());
-
-          scores.forEach(score => {
-            //eslint-disable-next-line
-            console.log(score.user);
+          const uniqueKeys = new Set();
+          const uniqueScores = scores.filter(score => {
+            const key = `${score.user}_${score.score}`;
+            const dupe = uniqueKeys.has(key);
+            uniqueKeys.add(key);
+            return !dupe;
           });
+          context.commit("INIT_HIGH_SCORES", uniqueScores.reverse());
         })
         .catch(err => {
           //eslint-disable-next-line

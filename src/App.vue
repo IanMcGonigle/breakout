@@ -1,10 +1,5 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link>|
-      <router-link to="/about">About</router-link>|
-      <router-link to="/game">Game</router-link>
-    </div>
     <div class="wrapper">
       <router-view />
     </div>
@@ -41,7 +36,8 @@ export default {
   min-height: 100vh;
   background: url("./assets/space-bg.jpg");
   background-size: cover;
-  // display: flex;
+  // padding-top: 30px;
+  display: flex;
 }
 #nav {
   padding: 30px;
@@ -58,7 +54,49 @@ export default {
   flex: 1;
 }
 
+.rb-shadow {
+  position: relative;
+  font-size: 5rem;
+  letter-spacing: -0.25rem;
+  margin: 3rem auto 6rem;
+  text-shadow: 1px 1px black, 5px 10px red, 10px 20px orange, 15px 30px yellow,
+    20px 40px green, 25px 50px blue, 0px 0px 50px white, 0px 50px 50px white;
+}
+
+.animated-rainbow {
+  animation-name: rainbow;
+  animation-duration: 200ms;
+  animation-iteration-count: infinite;
+}
+
+@keyframes rainbow {
+  0% {
+    text-shadow: 1px 1px black, 5px 10px red, 10px 20px orange, 15px 30px yellow,
+      20px 40px green, 25px 50px blue, 0px 0px 50px white, 0px 50px 50px white;
+  }
+  25% {
+    text-shadow: 1px 1px black, 5px 10px orange, 10px 20px yellow,
+      15px 30px green, 20px 40px blue, 25px 50px red, 0px 0px 50px white,
+      0px 50px 50px white;
+  }
+  50% {
+    text-shadow: 1px 1px black, 5px 10px yellow, 10px 20px green, 15px 30px blue,
+      20px 40px red, 25px 50px orange, 0px 0px 50px white, 0px 50px 50px white;
+  }
+  75% {
+    text-shadow: 1px 1px black, 5px 10px green, 10px 20px blue, 15px 30px red,
+      20px 40px orange, 25px 50px yellow, 0px 0px 50px white,
+      0px 50px 50px white;
+  }
+  100% {
+    text-shadow: 1px 1px black, 5px 10px blue, 10px 20px red, 15px 30px orange,
+      20px 40px yellow, 25px 50px green, 0px 0px 50px white, 0px 50px 50px white;
+  }
+}
+
+.btn,
 button {
+  display: inline-block;
   font-family: "Press Start 2P", cursive;
   font-size: 1.5rem;
   outline: 0;
@@ -73,6 +111,10 @@ button {
   min-width: 200px;
   text-transform: uppercase;
   cursor: pointer;
+  text-decoration: none;
+  &:visited {
+    color: white;
+  }
 
   &::before {
     content: "";

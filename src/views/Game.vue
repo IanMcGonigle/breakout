@@ -1,6 +1,14 @@
 
 <template lang="pug">
-  div
+  div.blackout( v-if="gameover")
+    .container
+      h1.rb-shadow.animated-rainbow GAME OVER
+      h1 {{player}} : score {{score}}
+      .controls
+        button.btn(@click="resetGame") replay
+        <router-link class="btn" to="/about">scores</router-link>
+        <router-link class="btn" to="/">quit</router-link>
+  div(v-else)
     .container
       <app-scoreboard />
       .board(ref="board")
@@ -16,6 +24,10 @@ import { mapActions, mapState } from "vuex";
 import Paddle from "../components/Paddle.vue";
 import Ball from "../components/Ball.vue";
 import ScoreBoard from "../components/ScoreBoard.vue";
+import { AudioManager } from "../utils/AudioManager";
+
+const audioManager = new AudioManager();
+audioManager.init();
 
 export default {
   name: "Game",
@@ -26,7 +38,7 @@ export default {
   },
   data() {
     return {
-      brickCount: 8,
+      brickCount: 40,
       hitCount: 0,
       paused: true,
       loopInterval: null,
@@ -48,6 +60,8 @@ export default {
   computed: {
     ...mapState({
       level: state => state.level,
+      player: state => state.player,
+      score: state => state.score,
       gameover: state => state.gameover
     })
   },
@@ -59,7 +73,9 @@ export default {
     },
     gameover() {
       if (this.gameover) {
-        this.$router.push("about");
+        audioManager.playGameover();
+
+        // this.$router.push("about");
       }
     }
   },
@@ -67,7 +83,13 @@ export default {
     this.initializeBall();
   },
   methods: {
-    ...mapActions(["updateTick", "addScore", "loseLife", "levelUp"]),
+    ...mapActions([
+      "updateTick",
+      "addScore",
+      "loseLife",
+      "levelUp",
+      "playAgain"
+    ]),
     togglePlay() {
       this.paused = !this.paused;
 
@@ -108,6 +130,9 @@ export default {
       this.togglePlay();
       this.initializeBall();
     },
+    resetGame() {
+      this.playAgain();
+    },
     loop() {
       this.loopInterval = requestAnimationFrame(this.loop);
 
@@ -135,18 +160,22 @@ export default {
       if (ballRect.y > boardRect.bottom - ballRect.height) {
         // this is where the turn would end
         this.onLoseBall();
+        audioManager.playMiss();
       }
       // check to see if the ball is off the top
       if (ballRect.y < boardRect.top) {
         this.ballDirection.y = 1;
+        audioManager.playBall();
       }
       // check to see if the ball is off the right
       if (ballRect.x > boardRect.right - ballRect.width) {
         this.ballDirection.x = -1;
+        audioManager.playBall();
       }
       // check to see if the ball is off the left
       if (ballRect.x < boardRect.left) {
         this.ballDirection.x = 1;
+        audioManager.playBall();
       }
 
       //Check to see if it has hit the paddle
@@ -156,6 +185,7 @@ export default {
           const ballLeft = ballRect.left - paddleRect.left;
           const impactPercent = ballLeft / paddleRect.width - 0.5;
           this.ballSpeed.x = Math.abs(impactPercent);
+          audioManager.playBall();
         }
       }
 
@@ -178,6 +208,7 @@ export default {
         // if it hits get rid of the brick, and break out of the loop
         if (hit) {
           brick.classList.add("brick-hit");
+          audioManager.playBrick();
           const brickSpeed =
             (4 - parseInt(brick.getAttribute("data-points"))) / 50;
           const newXspeed = Math.min(
@@ -266,10 +297,27 @@ export default {
   }
 }
 
+.btn,
 button {
-  margin: 2rem;
+  margin: 2rem 1rem;
   font-size: 1rem;
   padding: 0.75rem 1.25rem;
   min-width: 150px;
+}
+
+.blackout {
+  background: rgba(0, 0, 0, 0.7);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.controls {
+  display: flex;
+  margin: 20px auto;
+  justify-content: center;
 }
 </style>
