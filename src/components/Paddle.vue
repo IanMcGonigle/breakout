@@ -1,5 +1,5 @@
 <template>
-  <div v-bind:style="{ width: width, left: percent }">{{ level }}</div>
+  <div ref="paddle" v-bind:style="{ width: width, left: percent }">{{ level }}</div>
 </template>
 
 <script>
@@ -26,6 +26,12 @@ export default {
       if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
         this.keydown = false;
       }
+    });
+
+    window.addEventListener("touchstart", this.onTouch);
+    window.addEventListener("touchmove", this.onTouch);
+    window.addEventListener("touchend", () => {
+      this.keydown = false;
     });
 
     this.resetPosition();
@@ -62,8 +68,21 @@ export default {
     }
   },
   methods: {
+    onTouch(e) {
+      if (!this.$refs.paddle) return;
+      const touch = e.touches[0];
+      const paddle = this.$refs.paddle.getBoundingClientRect();
+
+      if (touch.pageX <= paddle.left) {
+        this.updatePostion("ArrowLeft");
+      } else if (touch.pageX >= paddle.left + paddle.width) {
+        this.updatePostion("ArrowRight");
+      } else {
+        this.keydown = false;
+      }
+    },
     updatePostion(direction) {
-      // if (!this.active) return;
+      if (!this.active) return;
 
       switch (direction) {
         case "ArrowLeft":
@@ -114,7 +133,6 @@ export default {
 <style lang="scss" scoped>
 div {
   height: 20px;
-  // margin: 2px;
   background: #fff;
   position: absolute;
   bottom: 0;

@@ -58,19 +58,18 @@ h1 {
   font-family: "Press Start 2P", cursive;
   border: 15px solid white;
   border-bottom: none;
-  // display: flex;
-  // font-size: 1.25rem;
-  // align-items: center;
 }
 
 .scoreboard {
-  // padding: 1rem;
-  background: black;
   color: white;
   font-family: "Press Start 2P", cursive;
   display: flex;
-  font-size: 1.25rem;
+  font-size: 0.9rem;
   align-items: center;
+
+  @media only screen and (min-width: 540px) {
+    font-size: 1.25rem;
+  }
 }
 
 .lives {
@@ -78,12 +77,18 @@ h1 {
 }
 
 .life {
-  --size: 15px;
+  --size: 5px;
   width: var(--size);
   height: var(--size);
-  margin: 0.25rem;
+  margin: 0.15rem;
   background: aquamarine;
   display: inline-block;
+  @media only screen and (min-width: 540px) {
+    --size: 15px;
+    width: var(--size);
+    height: var(--size);
+    margin: 0.25rem;
+  }
 }
 .score {
   margin-left: auto;

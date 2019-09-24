@@ -25,6 +25,14 @@ export default {
   margin: 0;
   padding: 0;
 }
+
+html {
+  font-size: 10px;
+
+  @media only screen and (min-width: 540px) {
+    font-size: 16px;
+  }
+}
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -55,11 +63,16 @@ export default {
 
 .rb-shadow {
   position: relative;
-  font-size: 5rem;
+  font-size: 4rem;
   letter-spacing: -0.25rem;
   margin: 3rem auto 6rem;
-  text-shadow: 1px 1px black, 5px 10px red, 10px 20px orange, 15px 30px yellow,
-    20px 40px green, 25px 50px blue, 0px 0px 50px white, 0px 50px 50px white;
+  text-shadow: 1px 1px black, 3px 6px red, 6px 12px orange, 9px 18px yellow,
+    12px 24px green, 15px 30px blue, 0px 0px 30px white, 0px 30px 30px white;
+
+  @media only screen and (min-width: 540px) {
+    text-shadow: 1px 1px black, 5px 10px red, 10px 20px orange, 15px 30px yellow,
+      20px 40px green, 25px 50px blue, 0px 0px 50px white, 0px 50px 50px white;
+  }
 }
 
 .animated-rainbow {

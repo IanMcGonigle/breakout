@@ -3,10 +3,12 @@
     h1 High Scores
 
     table.score-wrapper
+      th.rank rank
       th player
       th score
       tbody
-        tr( v-for="score in highscores" v-bind:class="{'current': isActive(score)}")
+        tr( v-for="(score, index) in highscores" v-bind:class="{'current': isActive(score)}")
+          td.rank {{index + 1}}
           td {{score.user}}
           td {{score.score}}
 
@@ -44,8 +46,6 @@ export default {
     ...mapActions(["setPlayer", "resetGame", "initHighscores"]),
     isActive(score) {
       const result = this.player === score.user && this.score === score.score;
-      // !this.activeSet;
-      // this.activeSet = true;
       return result;
     },
     onClick() {
@@ -88,8 +88,13 @@ table {
   border-collapse: collapse;
   text-align: left;
   margin: 2rem auto;
+  .rank {
+    max-width: 20%;
+    text-align: center;
+  }
   th {
     font-size: 1.25rem;
+    text-align: center;
   }
   th,
   td {
@@ -97,9 +102,9 @@ table {
     padding: 1.25rem 1.75rem;
   }
 
-  tr.current:first-of-type {
+  tr.current {
     animation: currentScore;
-    animation-duration: 500ms;
+    animation-duration: 300ms;
     animation-iteration-count: infinite;
   }
 
@@ -109,10 +114,12 @@ table {
 
   @keyframes currentScore {
     0% {
-      color: white;
+      color: yellow;
+      background: transparent;
     }
     100% {
-      color: yellow;
+      color: black;
+      background: yellow;
     }
   }
 }

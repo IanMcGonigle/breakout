@@ -93,7 +93,7 @@ export default new Vuex.Store({
     loseLife: context => {
       const newLives = context.state.lives - 1;
 
-      if (newLives > -1) {
+      if (newLives > 0) {
         context.commit("UPDATE_LIVES", newLives);
       } else {
         db.collection("scores")

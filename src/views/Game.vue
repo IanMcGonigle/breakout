@@ -16,6 +16,7 @@
         <app-ball ref="ball" :position="ballPosition"/>
         <app-paddle :active="!paused" ref="paddle"/>
       button( @click="togglePlay") {{paused ? "play" : "pause"}}
+      button( @click="toggleMute") {{muted ? "unmute" : "mute"}}
 </template>
 
 <script>
@@ -53,7 +54,8 @@ export default {
         x: 0.5,
         y: 0.5,
         max: 2.75
-      }
+      },
+      muted: false
     };
   },
   computed: {
@@ -62,7 +64,8 @@ export default {
       player: state => state.player,
       score: state => state.score,
       gameover: state => state.gameover
-    })
+    }),
+    isMuted: () => audioManager.mute
   },
   watch: {
     level() {
@@ -73,8 +76,6 @@ export default {
     gameover() {
       if (this.gameover) {
         audioManager.playGameover();
-
-        // this.$router.push("about");
       }
     }
   },
@@ -89,6 +90,11 @@ export default {
       "levelUp",
       "playAgain"
     ]),
+    toggleMute() {
+      const m = audioManager.mute;
+      this.muted = !m;
+      audioManager.setMute(this.muted);
+    },
     togglePlay() {
       this.paused = !this.paused;
 
@@ -232,6 +238,8 @@ export default {
       this.ballPosition.y =
         this.ballPosition.y + this.ballSpeed.y * this.ballDirection.y;
 
+      this.muted = audioManager.mute;
+
       // dispatch new tick
       this.updateTick();
     }
@@ -299,10 +307,19 @@ export default {
 
 .btn,
 button {
-  margin: 2rem 1rem;
+  margin: 1rem;
   font-size: 1rem;
   padding: 0.75rem 1.25rem;
-  min-width: 150px;
+  min-width: 100px;
+
+  @media only screen and (min-width: 540px) {
+    margin: 2rem 1rem;
+    min-width: 150px;
+  }
+}
+
+.container {
+  padding: 2rem;
 }
 
 .blackout {
@@ -310,6 +327,8 @@ button {
   position: absolute;
   top: 0;
   bottom: 0;
+  left: 0;
+  right: 0;
   width: 100%;
   display: flex;
   flex-direction: column;
