@@ -58,7 +58,9 @@ html {
 }
 .wrapper {
   margin: auto;
+  padding: 2rem;
   flex: 1;
+  overflow: hidden;
 }
 
 .rb-shadow {
