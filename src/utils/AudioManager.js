@@ -1,14 +1,15 @@
 // const time = 100;
 
+const ctx = new AudioContext();
+const g = ctx.createGain();
+g.gain.value = 0.105;
+g.connect(ctx.destination);
+
 export const AudioManager = () => {
   const playSound = (fq = 440, wave = "square", length = 0.25) => {
-    const ctx = new AudioContext();
     const o = ctx.createOscillator();
-    const g = ctx.createGain();
-    g.gain.value = 0.105;
     o.type = wave;
     o.frequency.setValueAtTime(fq, ctx.currentTime); // value in hertz
-    g.connect(ctx.destination);
     o.connect(g);
     o.start();
     o.stop(ctx.currentTime + length);
@@ -25,8 +26,8 @@ export const AudioManager = () => {
         }
       });
     },
-    playBrick() {
-      if (!this.mute) playSound();
+    playBrick(index) {
+      if (!this.mute) playSound(index % 2 ? 440 : 293.7);
     },
     playBall() {
       if (!this.mute) playSound(220);
@@ -42,6 +43,9 @@ export const AudioManager = () => {
     },
     setMute(value) {
       this.mute = value;
+    },
+    testFq(value) {
+      playSound(value);
     }
   };
 };

@@ -1,5 +1,7 @@
 <template>
-  <div ref="paddle" v-bind:style="{ width: width, left: percent }">{{ level }}</div>
+  <div ref="paddle" v-bind:style="{ width: width, left: percent }">
+    {{ level }}
+  </div>
 </template>
 
 <script>

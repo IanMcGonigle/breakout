@@ -1,5 +1,5 @@
 <template lang="pug">
-  div.blackout( v-if="gameover")
+  div.blackout( v-if="!gameover")
     .container
       h1.rb-shadow.animated-rainbow GAME OVER
       h1 {{player}} : score {{score}}
@@ -38,8 +38,10 @@ export default {
   },
   data() {
     return {
+      fq: 440,
       brickCount: 40,
       hitCount: 0,
+      runCount: 0,
       paused: true,
       loopInterval: null,
       ballPosition: {
@@ -51,8 +53,8 @@ export default {
         y: 1
       },
       ballSpeed: {
-        x: 0.5,
-        y: 0.5,
+        x: 2,
+        y: 2,
         max: 2.75
       },
       muted: false
@@ -127,6 +129,7 @@ export default {
     },
     resetField() {
       this.hitCount = 0;
+      this.runCount = 0;
       this.$refs.bricks.forEach(brick => {
         brick.classList.remove("brick-hit");
       });
@@ -190,6 +193,7 @@ export default {
           const ballLeft = ballRect.left - paddleRect.left;
           const impactPercent = ballLeft / paddleRect.width - 0.5;
           this.ballSpeed.x = Math.abs(impactPercent);
+          this.runCount = 0;
           audioManager.playBall();
         }
       }
@@ -213,7 +217,8 @@ export default {
         // if it hits get rid of the brick, and break out of the loop
         if (hit) {
           brick.classList.add("brick-hit");
-          audioManager.playBrick();
+          this.runCount++;
+          audioManager.playBrick(this.runCount);
           const brickSpeed =
             (4 - parseInt(brick.getAttribute("data-points"))) / 50;
           // const newXspeed = Math.min(
@@ -326,6 +331,7 @@ button {
   left: 0;
   right: 0;
   width: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
 }

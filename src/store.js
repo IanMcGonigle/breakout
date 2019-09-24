@@ -103,7 +103,6 @@ export default new Vuex.Store({
           })
           .then(res => {
             //eslint-disable-next-line
-            console.log("res ", res);
             context.commit("UPDATE_GAMEOVER", true);
           });
       }
